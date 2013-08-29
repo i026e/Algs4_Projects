@@ -1,0 +1,4 @@
+Running checkstyle on Percolation.java PercolationStats.java PercolationVisualizer.java:
+Starting audit...
+/home/pavel/algs4/Projects/1 Percolation/Percolation.java:112:28: ')' is preceded with whitespace.
+Audit done.

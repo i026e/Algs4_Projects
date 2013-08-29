@@ -1,0 +1,142 @@
+//import algs4.WeightedQuickUnionUF;
+
+public class Percolation {
+    // instance variables
+    private boolean[] grid;
+    private WeightedQuickUnionUF uf;
+    
+    private final int N;    
+    // virtual sites
+    private final int TOP;
+    private final int BOTTOM;
+    
+    // convention
+    private static final int SHIFT = -1;    
+    
+   
+    
+    /**
+     * create N-by-N grid, with all sites blocked
+     */
+    public Percolation(int N)              // 
+    {
+        this.N = N;
+        this.TOP = 0;
+        this.BOTTOM = N*N + 1;
+            
+        this.grid = new boolean[N*N+2];
+
+        this.uf = new WeightedQuickUnionUF(N*N + 2); // +2 virtual sides        
+        
+    }
+    
+    /**
+     * 
+     */
+    private void exceptionOnBounds(int i, int j) 
+    {
+      if  ( !(i> 0 && i <= this.N && j > 0 && j<=this.N))
+      {throw new  java.lang.IndexOutOfBoundsException();}
+    }
+    
+    
+    
+    /**
+     * Convert conventional indexes of row and colum  from 1 .. N to 0 .. (N-1) n and transform to index in array
+     * @return index
+     */ 
+    private int getIndexOfCite(int i, int j)
+    {
+        return 1 + (i+SHIFT)*N + (j+SHIFT);
+    }
+    
+    private int[] getOpenNeigborsInd(int i, int j)
+    {
+        exceptionOnBounds(i, j);
+        
+        
+        int self = getIndexOfCite(i, j);  
+        
+        int top = self;
+        int bottom = self;
+        int left = self;
+        int right = self;
+        
+        
+        //top 
+        if (i == 1) {top = this.TOP;} //virtual connection
+        else if (isOpen(i-1, j)) {top = getIndexOfCite(i-1, j);}
+        
+        //bottom
+        if (i == this.N) {bottom = this.BOTTOM;} //virtual connection
+        else if (isOpen(i+1, j)) {bottom = getIndexOfCite(i+1, j);}
+        
+        //left
+        if (j>1 && isOpen(i, j-1)) {left = getIndexOfCite(i, j-1);}
+        
+        //right
+        if (j<this.N-1 && isOpen(i, j+1)) {left = getIndexOfCite(i, j+1);}        
+        
+        int[] neigbs= {top, bottom, left, right};     
+        return neigbs;  
+        
+    }
+    
+    /**
+     * @param i index of first site
+     * @param j index of second site
+     */ 
+    private void addConnection(int indI, int indJ)
+    {
+        this.uf.union(indI, indJ);
+    }
+    
+    /**
+     * 
+     */    
+    public void open(int i, int j)         // open site (row i, column j) if it is not already
+    {
+        
+        if (!isOpen(i,j))
+        {
+                    
+            exceptionOnBounds(i, j);
+            
+            grid[getIndexOfCite(i,j)] = true;
+            for (int index : getOpenNeigborsInd(i, j))
+            {
+                addConnection(index, getIndexOfCite(i, j));
+            }
+        }
+        
+    }
+    
+    /**
+     * @param indexes from 1..N
+     */
+    public boolean isOpen(int i, int j)    // is site (row i, column j) open?
+    {
+        
+        exceptionOnBounds(i, j);
+        return grid[getIndexOfCite(i,j)];
+    }
+    
+       
+    /**
+     * 
+     */
+    public boolean isFull(int i, int j)    // is site (row i, column j) full?
+    {
+        exceptionOnBounds(i, j);
+        
+        return this.uf.connected(this.TOP, getIndexOfCite(i, j));
+    }
+    
+    /**
+     * 
+     */
+    public boolean percolates()            // does the system percolate?
+    {
+        return this.uf.connected(this.TOP, this.BOTTOM);
+    }
+}
