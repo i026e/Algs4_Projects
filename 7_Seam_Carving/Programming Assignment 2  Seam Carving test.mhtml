@@ -1,0 +1,265 @@
+From: <Saved by WebKit>
+Subject: Programming Assignment 2: Seam Carving
+Date: Thu, 13 Nov 2013 09:23:16 +0400
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----=_NextPart_000_F8F1_A0E66F39.14302471"
+
+------=_NextPart_000_F8F1_A0E66F39.14302471
+Content-Type: text/html
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://coursera.cs.princeton.edu/algs4/checklists/seamCarving.html
+
+<html><head><meta charset=3D"UTF-8">
+<title>
+Programming Assignment 2: Seam Carving
+</title>
+<style type=3D"text/css"></style></head>
+
+<body>
+<h3>
+Programming Assignment 2: Seam Carving
+</h3>
+
+<p>
+
+<table border=3D"0" cellpadding=3D"2" cellspacing=3D"0" width=3D"100%">
+<tbody><tr align=3D"left">
+<td bgcolor=3D"000000">
+<font size=3D"+0" face=3D"helvetica" color=3D"ffffff">
+<center><b>Frequently Asked Questions</b></center>
+</font></td></tr></tbody></table>
+
+</p><p><em>We haven't offered this assignment before, so we don't know what=
+ kinds of
+questions students will have. We will add to the list as needed.</em>
+
+
+</p><p><b>How do I manipulate images in Java?</b>
+Use our <a href=3D"http://introcs.cs.princeton.edu/java/stdlib/Picture.java=
+.html">Picture</a>
+data type (which is part of <tt>stdlib.jar</tt>)
+and the <a href=3D"http://docs.oracle.com/javase/6/docs/api/java/awt/Color.=
+html">Color</a>
+data type (which is part of the java.awt library).
+Here is some more information about the
+<a href=3D"http://introcs.cs.princeton.edu/java/31datatype/index.php#Color"=
+>Color</a>
+and
+<a href=3D"http://introcs.cs.princeton.edu/java/31datatype/index.php#Pictur=
+e">Picture</a>
+data types.
+<a href=3D"http://introcs.cs.princeton.edu/java/31datatype/Luminance.java.h=
+tml">Luminance.java</a>
+and
+<a href=3D"http://introcs.cs.princeton.edu/java/31datatype/Grayscale.java.h=
+tml">Grayscale.java</a>
+are example clients that use the <tt>Color</tt> and <tt>Picture</tt> data t=
+ypes, respectively.
+
+
+</p><p><b>I noticed that the Picture API has a method to change the origin =
+(0, 0)
+from the upper teft to the lower left. Can I assume (0, 0) is the upper lef=
+t pixel?</b>
+Yes.
+
+</p><p><b>Must the arguments to <tt>removeHorizontalSeam()</tt> and <tt>rem=
+oveVerticalSeam()</tt>
+be minimum energy seams?</b>
+No. These methods should work for any valid seam (and throw an exception fo=
+r any invalid seam).
+
+</p><p>
+
+<table border=3D"0" cellpadding=3D"2" cellspacing=3D"0" width=3D"100%">
+<tbody><tr align=3D"left">
+<td bgcolor=3D"000000">
+<font size=3D"+0" face=3D"helvetica" color=3D"ffffff">
+<center><b>Testing</b></center>
+</font></td></tr></tbody></table>
+
+</p><p><b>Clients.</b>&nbsp;
+You may use the following client programs to test and debug your code.
+
+</p><p>
+</p><ul>
+<p></p><li>
+<a href=3D"http://coursera.cs.princeton.edu/algs4/testing/seamCarving/Print=
+Energy.java">PrintEnergy.java</a>
+computes and prints a table of the energy of an image with filename provide=
+d on the command line.=20
+
+<p></p></li><li>
+<a href=3D"http://coursera.cs.princeton.edu/algs4/testing/seamCarving/ShowE=
+nergy.java">ShowEnergy.java</a>
+computes and draws the energy of an image with filename provided on the com=
+mand line.
+
+<p></p></li><li>
+<a href=3D"http://coursera.cs.princeton.edu/algs4/testing/seamCarving/ShowS=
+eams.java">ShowSeams.java</a>
+computes the horizontal seam, vertical seam, and energy of the image with f=
+ilename
+provided on the command line.=20
+Draws the horizontal and vertical seams over the energy.
+
+<p></p></li><li>
+<a href=3D"http://coursera.cs.princeton.edu/algs4/testing/seamCarving/Print=
+Seams.java">PrintSeams.java</a>
+computes the horizontal seam, vertical seam, and energy of the image with
+filename provided on the command line.=20
+Prints the horizontal and vertical seams as annotations to the energy.
+Many of the small input files provided also=20
+have a <tt>printseams.txt</tt> file=20
+(such as <a href=3D"http://coursera.cs.princeton.edu/algs4/testing/seamCarv=
+ing/5x6.printseams.txt">5x6.printseams.txt</a>), so you can=20
+compare your results to the correct solution.
+
+<p></p></li><li>
+<a href=3D"http://coursera.cs.princeton.edu/algs4/testing/seamCarving/Resiz=
+eDemo.java">ResizeDemo.java</a>
+uses your seam removal methods to resize the image.
+The command line arguments are filename, <em>W</em> and <em>H</em> where
+<em>W</em> is the number of columns and <em>H</em> is the number rows to=20
+remove from the image specified.
+
+<p></p></li><li>
+<a href=3D"http://coursera.cs.princeton.edu/algs4/testing/seamCarving/SCUti=
+lity.java">SCUtility.java</a>
+is a utility program used by most of the above clients.
+
+
+
+</li></ul>
+<p><b>Sample input files.</b>
+&nbsp;
+The directory <a href=3D"http://coursera.cs.princeton.edu/algs4/testing/sea=
+mCarving">seamCarving</a> contains
+the client programs above along with some sample image files.
+For convenience,
+<a href=3D"http://coursera.cs.princeton.edu/algs4/testing/seamCarving-testi=
+ng.zip">seamCarving-test.zip</a>
+contains all of these files bundled together.
+You can also use your own image files for testing and entertainment.
+
+</p><p>
+<table border=3D"0" cellpadding=3D"2" cellspacing=3D"0" width=3D"100%">
+<tbody><tr align=3D"left">
+<td bgcolor=3D"000000">
+<font size=3D"+0" face=3D"helvetica" color=3D"ffffff">
+<center><b>Possible Progress Steps</b></center>
+</font></td></tr></tbody></table>
+</p><p>
+
+These are purely suggestions for how you might make progress.  You do
+not have to follow these steps.
+
+</p><ol>
+
+<p></p><li>Start by writing the constructor as well as <tt>picture()</tt>, =
+<tt>width()</tt> and <tt>height()</tt>.
+These should be very easy.=20
+
+<p></p></li><li>From there, write <tt>energy()</tt>.
+Calculating =CE=94<sub><em>x</em></sub><sup>2</sup> and =CE=94<sub><em>y</e=
+m></sub><sup>2</sup>
+are very similar. Using two private methods will keep your code simple.
+To test that your code works,
+use the client <tt>PrintEnergy</tt> described in the testing section above.
+
+<p></p></li><li> To write <tt>findVerticalSeam()</tt>, you will want to fir=
+st make=20
+sure you understand the topologial sort algorithm for computing a shortest =
+path in a DAG.
+Do <em>not</em> create an <tt>EdgeWeightedDigraph</tt>. Instead construct a=
+ 2d=20
+energy array using the <tt>energy()</tt> method that you have already writt=
+en.
+Your algorithm can traverse this matrix=20
+treating some select entries as reachable from <tt>(x, y)</tt> to calculate=
+ where the seam is located.=20
+To test that your code works,
+use the client <tt>PrintSeams</tt> described in the testing section above.
+
+
+<p></p></li><li> To write <tt>findHorizontalSeam()</tt>,
+transpose the image, call <tt>findVerticalSeam()</tt>,
+and transpose it back.
+
+<p></p></li><li>Now implement <tt>removeVerticalSeam()</tt>.=20
+Typically, this method will be called with the output of <tt>findVerticalSe=
+am()</tt>,
+but be sure that they work for any seam.
+To test that your code words, use the client <tt>ResizeDemo</tt> described =
+in the testing section above.
+
+<p></p></li><li> To write <tt>removeHorizontalSeam()</tt>, transpose the im=
+age, call <tt>removeVerticalSeam()</tt>,
+and transpose it back.
+
+
+</li></ol>
+
+
+<p>
+<table border=3D"0" cellpadding=3D"2" cellspacing=3D"0" width=3D"100%">
+<tbody><tr align=3D"left">
+<td bgcolor=3D"000000">
+<font size=3D"+0" face=3D"helvetica" color=3D"ffffff">
+<center><b>Optimizations</b></center>
+</font></td></tr></tbody></table>
+</p><p>
+
+</p><ol>
+
+<p></p><li>
+There is no need to create a new <tt>Picture</tt> object after removing a
+seam=E2=80=94instead, just maintain the updated energy matrix.
+That is, you can defer creating a <tt>Picture</tt> object until
+required to do so because of a call to <tt>picture()</tt>.
+Since <tt>Picture</tt> objects are relatively expensive, this will speed
+things up.
+
+<p></p></li><li>
+Avoid recomputing the parts of the energy matrix that don't change.
+
+<p></p></li><li>
+Don't explicitly transpose the <tt>Picture</tt>. Instead transpose the ener=
+gy matrix when needed.
+Instead of transposing it back when you're done,
+just keep track of whether the energy matrix is transposed.
+
+<p></p></li><li>
+Test whether it is faster to traverse the energy matrix in row-major order =
+or column-major order.
+
+</li></ol>
+
+
+
+<p>
+<table border=3D"0" cellpadding=3D"2" cellspacing=3D"0" width=3D"100%">
+<tbody><tr align=3D"left">
+<td bgcolor=3D"000000">
+<font size=3D"+0" face=3D"helvetica" color=3D"ffffff">
+<center><b>Challenge for the bored</b></center>
+</font></td></tr></tbody></table>
+</p><p>
+
+</p><ol>
+<p></p><li>
+Your <tt>energy()</tt> method implemented the dual gradient energy function=
+.
+Try out other energy functions.=20
+
+<p></p></li><li> Implement an interactive object-removal feature: The user =
+highlights an area of the
+image, and that portion of the image is forced to zero energy.
+Rows and columns are then successively removed until every pixel in
+that zero-energy region has been removed.
+</li></ol>
+
+</body></html>
+------=_NextPart_000_F8F1_A0E66F39.14302471--
