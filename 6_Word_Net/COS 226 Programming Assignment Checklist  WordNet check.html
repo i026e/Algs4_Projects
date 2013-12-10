@@ -1,0 +1,319 @@
+
+<!-- saved from url=(0062)http://coursera.cs.princeton.edu/algs4/checklists/wordnet.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>
+COS 226 Programming Assignment Checklist: WordNet
+</title>
+<style type="text/css"></style></head>
+
+<body>
+<h3>
+COS 226 Programming Assignment Checklist: WordNet
+</h3>
+
+<p><br>
+
+
+<table border="0" cellpadding="2" cellspacing="0" width="100%">
+<tbody><tr align="left">
+<td bgcolor="000000">
+<font size="+0" face="helvetica" color="ffffff">
+<center>Frequently Asked Questions</center>
+</font></td></tr></tbody></table>
+
+
+</p><p><b> How do I read input directly from a file, without redirecting standard input?</b>
+Use the <a href="http://algs4.cs.princeton.edu/stdlib/javadoc/In.html">In data type</a>.
+(See pp. 82-83 of the textbook for more details.)
+
+</p><p><b> Can I read the synset or hypernym file twice?</b>
+No, file I/O is very expensive so 
+please read each file only once and store it in an appropriate data structure.
+
+</p><p><b>Any advice on how to read in and parse the synset and hypernym data files?</b>
+Use the <tt>readLine()</tt> method in our <tt>In</tt> library to read
+in the data one line at a time.
+Use the <tt>split()</tt> method in Java's <tt>String</tt> library
+to divide a line into fields. You can find an example using <tt>split()</tt> in 
+<a href="http://algs4.cs.princeton.edu/25applications/Domain.java.html">Domain.java</a>.
+Use <tt>Integer.parseInt()</tt> 
+to convert string id numbers into integers.
+
+</p><p><b>What assumption can I make about the digraph G passed to the SAP constructor?</b>
+It can be any digraph, not necessarily a DAG.
+
+</p><p><b>What data structure(s) should I use to store the synsets, synset ids, and hypernyms?</b>
+This part of the assignment is up to you. You must carefully select data structures
+to achieve the specified performance requirements.
+
+</p><p><b>Do I need to store the glosses?</b>
+No, you won't use them on this assignment.
+
+</p><p><b>Can I use my own Digraph class?</b>
+No, it must have the same API as our
+<a href="http://algs4.cs.princeton.edu/42directed/Digraph.java.html">Digraph.java</a>
+class; otherwise, you are changing the API to the SAP constructor (which takes a 
+<tt>Digraph</tt> argument). Do not submit <tt>Digraph.java</tt>.
+
+</p><p><b>Should I re-implement breadth-first search in my SAP class?</b>
+No, you should call the relevant method(s) in
+<a href="http://algs4.cs.princeton.edu/42directed/BreadthFirstDirectedPaths.java.html">BreadthFirstDirectedPaths.java</a>.
+You may modify <a href="http://algs4.cs.princeton.edu/42directed/BreadthFirstDirectedPaths.java.html">BreadthFirstDirectedPaths.java</a>
+to optimize your code, but if you do so, rename it,
+say to <tt>DeluxeBFS.java</tt>, and submit it.
+
+</p><p><b> I understand how to compute the <tt>length(int v, int w)</tt> method
+in time proportional to <em>E</em> + <em>V</em>
+but my <tt>length(Iterable&lt;Integer&gt; v, Iterable&lt;Integer&gt; w)</tt>
+method takes time proportional to <em>a</em> × <em>b</em> × (<em>E</em> + <em>V</em>),
+where <em>a</em> and <em>b</em> are the sizes of the two iterables. How can
+I improve it to be proportional to <em>E</em> + <em>V</em>?</b>
+The key is using the constructor in <tt>BreadthFirstDirectedPaths</tt> that 
+takes an iterable of sources instead of using a single source.
+
+
+</p><p><b> What shound <tt>ancestor()</tt> or <tt>sap()</tt> return if there is more than
+one shortest ancestral path?</b>
+Return any such one.
+
+
+</p><p><b>Is a vertex considered an ancestor of itself?</b>
+Yes.
+
+</p><p><b>What is the root synset for the WordNet DAG?</b>
+
+</p><blockquote><pre>38003,entity,that which is perceived or known or inferred to have its own distinct existence (living or nonliving)  
+</pre></blockquote>
+
+<p><b>Can a noun appear in more than one synset?</b>
+Absolutely. It will appear once for each meaning that the noun has.
+For example, here are all of the entries in <tt>synsets.txt</tt>
+that include the noun <tt>word</tt>.
+
+</p><blockquote><pre>35532,discussion give-and-take word,an exchange of views on some topic; "we had a good discussion"; "we had a word or two about it"
+56587,news intelligence tidings word,new information about specific and timely events; "they awaited news of the outcome"
+59267,parole word word_of_honor,a promise; "he gave his word"
+59465,password watchword word parole countersign,a secret word or phrase known only to a restricted group; "he forgot the password"
+81575,word,a word is a string of bits stored in computer memory; "large computers use words up to 64 bits long"
+81576,word,a verbal command for action; "when I give the word  charge!"
+81577,word,a brief statement; "he didn't say a word about it"
+81578,word,a unit of language that native speakers can identify; "words are the blocks from which sentences are made"; "he hardly said ten words all morning"
+</pre></blockquote>
+
+<p><b>Can a synset consist of exactly one noun?</b>
+Yes. Moreover, there can be several different synsets that consist of the same noun.
+
+</p><blockquote><pre>62,Aberdeen,a town in western Washington  
+63,Aberdeen,a town in northeastern South Dakota  
+64,Aberdeen,a town in northeastern Maryland  
+65,Aberdeen,a city in northeastern Scotland on the North Sea  
+</pre></blockquote>
+
+<!--
+<p><b>Can two synsets have identical glosses?</b>
+Yes. In such cases, <tt>glosses()</tt> should include a copy of each.
+
+<blockquote><pre>
+23104,barley barleycorn,a grain of barley  
+23108,barleycorn,a grain of barley  
+</pre></blockquote>
+
+
+<p><b>Some of the glosses have example sentences at the end. What is this?</b>
+The example sentence is considered to be part of the gloss.
+You shouldn't need to do anything special to handle it.
+-->
+
+<p><b>I'm an ontologist and I noticed that your 
+<tt>hypernyms.txt</tt> file contains both <em>is-a</em> and
+<em>is-instance-of</em> relationships.</b>
+Yes, you caught us. This ensures that every noun (except entity)
+has a hypernym. Here is an article on the 
+<a href="http://coursera.cs.princeton.edu/algs4/checklists/wordnet-instances.pdf">subtle distinction</a>.
+
+<!--
+<p><b>In WordNet, what should <tt>glosses()</tt> do if the input argument
+is not a wordnet noun?</b>
+Return an <tt>Iterable&lt;String&gt;</tt> that has zero elements.
+-->
+
+</p><p><b>How can I make SAP immutable?</b>
+You can (and should) save the associated digraph in an instance variable.
+However, because our <tt>Digraph</tt> data type is mutable,
+you must first make a defensive copy by calling the copy constructor.
+
+
+
+</p><p>
+
+<table border="0" cellpadding="2" cellspacing="0" width="100%">
+<tbody><tr align="left">
+<td bgcolor="000000">
+<font size="+0" face="helvetica" color="ffffff">
+<center>Input, Output, and Testing</center>
+</font></td></tr></tbody></table>
+
+</p><p><b>Some examples.</b>
+Here are some interesting examples that you can use in your code.
+
+</p><ul>
+
+<p></p><li>The synset <tt>municipality</tt> has two paths to <tt>region</tt>.
+<blockquote><pre>municipality -&gt; administrative_district -&gt; district -&gt; region
+municipality -&gt; populated_area-&gt; geographic_area -&gt; region
+</pre></blockquote>
+
+<p></p></li><li> The synsets <tt>individual</tt> and <tt>edible_fruit</tt>
+have several different paths to their common ancestor
+<tt>physical_entity</tt>.
+    
+<blockquote><pre>individual -&gt; organism being -&gt; living_thing animate_thing -&gt; whole unit -&gt; object physical_object -&gt; physical_entity
+person individual someone somebody mortal soul -&gt; causal_agent cause causal_agency -&gt; physical_entity
+edible_fruit -&gt; garden_truck -&gt; food solid_food -&gt; solid -&gt; matter -&gt; physical_entity
+edible_fruit -&gt; fruit -&gt; reproductive_structure -&gt; plant_organ -&gt; plant_part -&gt; natural_object -&gt; unit -&gt; object -&gt; physica
+</pre></blockquote>
+
+
+<p></p></li><li> The following pairs of nouns are very far apart:
+<blockquote><pre>33 = distance("Black_Plague", "black_marlin")
+27 = distance ("American_water_spaniel", "histology")
+29 = distance("Brown_Swiss", "barrel_roll")
+</pre></blockquote>
+
+</li><li> The following synset has many ancestors and paths to <tt>entity</tt>.
+<blockquote><pre>Ambrose Saint_Ambrose St._Ambrose
+</pre></blockquote>
+
+</li></ul>
+
+<p><b>Timing.</b>
+In the "Optimizations" section below, we provide some tricks to speed up
+the running time by several orders of magnitude. But, don't try to implement
+these until you have a working nonoptimized solution.
+
+</p><p><b>DrJava.</b>
+We do not recommend that you run your program on large inputs in DrJava—instead,
+use the command line.
+
+
+</p><p>
+<table border="0" cellpadding="2" cellspacing="0" width="100%">
+<tbody><tr align="left">
+<td bgcolor="000000">
+<font size="+0" face="helvetica" color="ffffff">
+<center>Possible progress steps</center>
+</font></td></tr></tbody></table>
+
+</p><p>
+
+</p><ul>
+
+<p></p><li>
+The directory
+<a href="http://coursera.cs.princeton.edu/algs4/testing/wordnet/">wordnet</a>
+contains some sample input files.
+For convenience, <a href="http://coursera.cs.princeton.edu/algs4/testing/wordnet-testing.zip">wordnet-testing.zip</a>
+contains all of these files bundled together.
+
+<p></p></li><li>
+Create the data type <tt>SAP</tt>.
+First, think carefully about designing a correct and efficient
+algorithm for computing the shortest ancestral path.
+Ask in the Discussion Forums if you're unsure.
+In addition to the <tt>digraph*.txt</tt> files, 
+design small DAGs to test and debug your code.
+
+<p></p></li><li>
+Read in and parse the files described in the assignment, <tt>synsets.txt</tt> 
+and <tt>hypernyms.txt</tt>.
+Don't worry about storing the data in any data structures yet.
+Test that you are parsing the input correctly before proceeding.
+
+<p></p></li><li>
+Create a data type <tt>WordNet</tt>. Divide the constructor into 
+two subtasks.
+<ul>
+<p></p><li> Read in the <tt>synsets.txt</tt> file and build
+appropriate data structures.
+
+<p></p></li><li> Read in the <tt>hypernyms.txt</tt> file and build a
+<tt>Digraph</tt>.
+</li>
+</ul>
+
+<p>
+If you read in <tt>synsets.txt</tt> first, you can identify the largest id
+before constructing the <tt>Digraph</tt>.
+Check that it is 82,191 but do not hardwire this number into your
+program because your program must work with any valid input file.
+
+<!--
+<p><li> Add the method <tt>isNoun()</tt> and <tt>glosses()</tt>.
+If you chose appropriate data structures when parsing
+<tt>synsets.txt</tt>, this step will be relatively easy.
+
+<p>
+Try some nouns that participate in many synsets, e.g., <tt>run</tt>, <tt>face</tt> and 
+<tt>back</tt>.
+-->
+
+
+</p></li></ul>
+
+
+<p>
+<table border="0" cellpadding="2" cellspacing="0" width="100%">
+<tbody><tr align="left">
+<td bgcolor="000000">
+<font size="+0" face="helvetica" color="ffffff">
+<center>Optional Optimizations</center>
+</font></td></tr></tbody></table>
+
+</p><p>
+There are a few things you can do to <em>significantly</em>
+speed up a sequence of SAP computations on the same digraph.
+
+</p><ul>
+<p></p><li> The bottleneck operation is reinitializing arrays of length <em>V</em> to
+perform the BFS computations. This must be done once for the first BFS computation,
+but if you keep track of which array entries change, you can reuse the same 
+array from computation to computation (reinitializing only those
+entries that changed in the previous computation).
+This can lead to a speedup of several orders of magnitude
+when only a small number of entries change
+(which is the typical case for the wordnet digraph).
+Note that if you have any other loops that iterates through all of the vertices,
+then you must eliminate those loops too in order to achieve a sublinear running time.
+
+<p></p></li><li> If you run the breadth-first searches from <em>v</em> and <em>w</em> simultaneously,
+then you can terminate the BFS from <em>v</em> (or <em>w</em>) as soon as the distance exceeds
+the length of the best ancestral path found so far.
+
+<p></p></li><li> Implement a software cache of recently computed <tt>length()</tt> and
+<tt>ancestor()</tt> queries. Often, a client calls <tt>ancestor()</tt> immediately
+after calling <tt>length()</tt> or vice versa, which results in a factor of 2 speedup.
+
+
+</li></ul>
+
+
+<p>
+<table border="0" cellpadding="2" cellspacing="0" width="100%">
+<tbody><tr align="left">
+<td bgcolor="000000">
+<font size="+0" face="helvetica" color="ffffff">
+<center>Enrichment</center>
+</font></td></tr></tbody></table>
+
+</p><ul>
+<p></p><li>
+This <a href="http://youinfinitesnake.blogspot.com/search?q=wordnet">applet</a>
+connects words by a chain of WordNet synonyms.
+
+<p></p></li><li>
+This <a href="http://staff.science.uva.nl/~kamps/publications/2004/kamp:usin04.pdf">paper</a>
+measures the semantic orientation of WordNet adjectives by computing their
+relative distance to "good" and "bad."
+
+</li></ul>
+</body></html>

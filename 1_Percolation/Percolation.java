@@ -1,4 +1,5 @@
 //import algs4.WeightedQuickUnionUF;
+//memory ~ (N*N*8)*2 + N*N*1 = 17*N*N bytes
 
 public class Percolation {
     // convention
