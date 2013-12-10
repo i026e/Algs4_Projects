@@ -1,0 +1,371 @@
+From: <Saved by WebKit>
+Subject: COS 226 Programming Assignment Checklist: Burrows-Wheeler Data Compression
+Date: Tue, 9 Dec 2013 06:23:26 +0400
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----=_NextPart_000_6299_2662214D.E8734C18"
+
+------=_NextPart_000_6299_2662214D.E8734C18
+Content-Type: text/html
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://coursera.cs.princeton.edu/algs4/checklists/burrows.html
+
+<html><head><meta charset=3D"UTF-8"> <title> COS 226 Programming Assignment=
+ Checklist: Burrows-Wheeler Data Compression=20
+</title> <style type=3D"text/css"></style></head>
+
+<body> <h3> COS 226 Programming Assignment Checklist: Burrows-Wheeler Data =
+Compression=20
+</h3>
+
+
+<table border=3D"0" cellpadding=3D"2" cellspacing=3D"0" width=3D"100%"> <tb=
+ody><tr align=3D"left"> <td bgcolor=3D"000000"> <font size=3D"+0" face=3D"h=
+elvetica" color=3D"ffffff">=20
+<center>Frequently Asked Questions</center> </font></td></tr></tbody></tabl=
+e>
+
+<p><b>What program should I use for reading and writing the data?</b> You m=
+ust use=20
+<tt>BinaryStdIn.java</tt> and <tt>BinaryStdOut.java</tt>. These read and wr=
+ite sequences=20
+of bytes, whereas <tt>StdIn.java</tt> and <tt>StdOut.java</tt>
+read and write sequences of Unicode=20
+characters. These are in <a href=3D"http://introcs.cs.princeton.edu/stdlib/=
+stdlib.jar">stdlib.jar</a>.
+
+</p><p><b>My programs don't work properly with binary data. Why not?</b> Be=
+ absolutely sure=20
+that you use only <tt>BinaryStdIn.java</tt> and <tt>BinaryStdOut.java</tt> =
+for input=20
+and output. Also, be sure that you call <tt>BinaryStdOut.flush()</tt> or=20
+<tt>BinaryStdOut.close()</tt> after you are done writing=E2=80=94see <tt>Hu=
+ffman.expand()</tt>
+for an example.
+
+</p><p><b>Why does <tt>BinaryStdIn</tt> return the 8-bits as a (16-bit unsi=
+gned) <tt>char</tt>=20
+instead of as an (8-bit signed) <tt>byte</tt></b>? The primitive type <tt>b=
+yte</tt> is annoying
+to use in Java. When you operate on a <tt>byte</tt>, it is typically promot=
+ed to an=20
+<tt>int</tt> and you must be careful because the byte is signed.
+For example, to convert a <tt>byte b</tt> to a <tt>char c</tt>, you must wr=
+ite=20
+<tt>c =3D (char) (b &amp; 0xff)</tt> instead of <tt>c =3D (char) b</tt>. By=
+ using <tt>char</tt>,=20
+we avoid the hassle.
+
+</p><p><b>For the Burrows-Wheeler encoder, in which order do I sort the suf=
+fixes?</b>
+The input is a sequence of extended ASCII characters (00 to FF), which you =
+can read in with=20
+<tt>BinaryStdIn.readString()</tt>. You should sort the suffixes according t=
+o
+extended ASCII order, which is the natural order of the <tt>String</tt> dat=
+a type.
+
+</p><p><b>For the Burrows-Wheeler decoder, does <tt>next[0]</tt> always equ=
+al first?
+And wouldn't this mean that the index <tt>first</tt> is redundant?</b>
+No, this is just a coincidence with the input string <tt>"ABRACADABRA!"</tt=
+>.
+Consider any two input strings that are cyclic rotations of one another,
+e.g., <tt>"ABRACADABRA!"</tt> and <tt>"CADABRA!ABRA"</tt>. They will have t=
+he same
+sorted suffixes and <tt>t[]</tt> array=E2=80=94their only difference will b=
+e in
+the index <tt>first</tt>.
+
+</p><p><b>Can I assume that the decode() method in BurrowsWheeler receives =
+only
+valid inputs (that were created by a call to the encode() method)?</b>
+Yes.
+
+</p><p><b>How can I view the contents of a binary file and determine its si=
+ze?</b>
+Use
+<a href=3D"http://introcs.cs.princeton.edu/15inout/HexDump.java.html">HexDu=
+mp.java</a>,
+as in the assignment.
+The command-line argument specifies the number of bytes per line to print; =
+if the argument is
+0, all output except for the number of bits will be suppressed.
+
+<!-- <p><b>I have a difference of one character when I combine all three en=
+coders (even=20
+though when I run each encoder separately I have no differences). Is this a=
+ Windows=20
+curiosity?</b> Yes, we think so. Try running on hats. -->
+
+</p><p><b>How much memory can my program consume?</b> The Burrows-Wheeler e=
+ncoder may use=20
+quite a bit, so you may need to use the <tt>-Xmx</tt> option when executing=
+. You must use=20
+space linear in the input size <em>N</em> and alphabet size <em>R</em>.
+(Industrial strength Burrows-Wheeler compression=20
+algorithms typically use a fixed block size, and encode the message in thes=
+e smaller=20
+chunks. This reduces the memory requirements, at the expense of some loss i=
+n compression=20
+ratio.)
+Therefore, depending on your operating system and configuration=20
+there may be some very large files for which your program will not have=20
+enough memory even with the <tt>-Xmx</tt> option.
+
+<!-----
+<p><b>I'm using Java 1.7, Update 6 (or later) and I run out of memory in th=
+e
+Burrows-Wheeler encoder. Any ideas?</b>
+According to <a href =3D "http://mail.openjdk.java.net/pipermail/core-libs-=
+dev/2012-May/010257.html">this announcement</a>,
+starting with Java 1.7, Update 6, the=20
+the <tt>substring()</tt> method in the <tt>String</tt> data type
+<em>no longer takes constant time or space</em>!
+We recommend that you use Java 1.6.
+----->
+</p><p><b>I'm running out of memory in the Burrows-Wheeler encoder. Any ide=
+as?</b> If the memory is created in <tt>CircularSuffixArray</tt>,=20
+be sure not to create copies of the String when you sort the suffixes. Inst=
+ead you only need to keep an index that indicates which character is the be=
+ginning of the current suffix, and sort an array of indices. It's just like=
+ sorting an array of references.
+
+</p><p><b>I get the findbugs warning B ES_COMPARING_STRINGS_WITH_EQ ES: Com=
+parison of String objects
+using =3D=3D or !=3D in BurrowsWheeler.encode(). Is that a problem?</b>
+No, if you're intentionally comparing strings using reference equality, jus=
+t document that
+in your comments and ignore the warning.
+
+</p><p><b>What is meant by "typical English text inputs"?</b>
+Inputs such as <tt>aesop.txt</tt>, <tt>moby.txt</tt>, or your most recent e=
+ssay.
+We do not mean files such as <tt>aesop3copies.txt</tt> or random sequences =
+of characters.
+
+</p><p><b>How do I use gzip and bzip2 on Windows?</b> It's fine to use pkzi=
+p or
+<a href=3D"http://www.7-zip.org/">7-zip</a> instead.
+
+</p><p><b>I'm curious. What compression algorithm is used in PKZIP? In gzip=
+? In bzip2?</b>=20
+PKZIP uses LZW compression followed by Shannon-Fano (an entropy encoder sim=
+ilar
+to Huffman). The Unix utility gzip uses a variation of LZ77 (similar=20
+to LZW) followed by Huffman coding. The program bzip2 combines the
+Burrows-Wheeler transform, Huffman coding, and a (fancier) move-to-front st=
+yle rule.
+
+</p><p>
+
+<table border=3D"0" cellpadding=3D"2" cellspacing=3D"0" width=3D"100%"> <tb=
+ody><tr align=3D"left"> <td bgcolor=3D"000000"> <font size=3D"+0" face=3D"h=
+elvetica" color=3D"ffffff"> <center>Testing</center> </font></td></tr></tbo=
+dy></table>
+
+</p><p><b>Input.</b> Here are some <a href=3D"http://coursera.cs.princeton.=
+edu/algs4/testing/textfiles">sample input files</a>. To fully test=20
+your program, you should also try to compress and uncompress binary files (=
+e.g., .class or=20
+.jpg files).
+Be careful to download them as binary files=E2=80=94some browsers will corr=
+upt them
+if you view the file and use File -&gt; Save.
+Do not edit them in a text editor=E2=80=94some editors will corrupt them
+by inserting bogus newline characters.
+
+
+
+</p><p><b>Reference solutions.</b> For reference, we have provided the outp=
+ut of compressing=20
+<tt>aesop.txt</tt> and <tt>us.gif</tt>. We have also provided the results o=
+f applying each=20
+of the three encoding algorithms in isolation. Note that the .gif file is a=
+ binary file and=20
+is already compressed.
+
+</p><p>
+To compare the contents of two files, you can use the following commands:
+
+</p><ul>
+<p></p><li><em>Mac OS X or Linux:</em> <tt>diff file1 file2</tt>
+<p></p></li><li><em>Windows:</em> <tt>fc file1 file2</tt>
+</li></ul>
+
+
+<p><b>Timing your program.</b>=20
+
+</p><ul>
+<p></p><li><em>Mac OS X or Linux.</em>
+Use the following command:
+    <pre>% time java BurrowsWheeler - &lt; mobydick.txt | java MoveToFront =
+- | java Huffman - &gt; mobyDickOutputFileName</pre>
+You want to record the "real" value.
+
+<p></p></li><li><em>Windows.</em>
+We recommend using a simple batch file. The
+process for creating and running a batch file is as follows:
+
+<ol>
+    <p></p><li> Create a file called <tt>timeTest.bat</tt> in the same dire=
+ctory as your Burrows wheeler assignment.=20
+    This is known as a "batch file". </li>
+    <p></p><li> Inside that file, put the following text (using Notepad or =
+a similar text editor):
+
+    <pre>    echo %time%
+    java BurrowsWheeler - &lt; mobydick.txt | java MoveToFront - | java Huf=
+fman - &gt; mobyDickOutputFileName
+    echo %time%
+    </pre>
+
+    <p></p></li><li>Execute <tt>timeTest.bat</tt> by navigating a terminal =
+window so that it's
+           in the same directory as <tt>timeTest.bat</tt> and your .java fi=
+les and
+           type <tt>timeTest</tt>.
+       </li>
+
+</ol>
+
+<p>
+Make sure you name the batch file <tt>timeTest.bat</tt> instead of
+<tt>timeTest.bat.txt</tt>.
+Note that you can test multiple files by adding more lines to the batch fil=
+e.
+
+</p></li></ul>
+
+<p><b>Timing using gzip, bzip2, 7zip, etc.</b></p>
+
+<ul>
+<p></p><li><em>Mac OS X or Linux.</em> Use the <tt>time</tt> command as abo=
+ve, but
+with <tt>gzip</tt> or <tt>bzip2</tt>.
+=20
+<p></p></li><li><em>Windows.</em> There is no built-in data compression pro=
+gram (such as gzip or bzip2).
+We recommend downloading the free
+<a href=3D"http://www.7-zip.org/">7-zip</a> program.
+After instaling 7-zip, create a new batch file (any filename ending in <tt>=
+.bat</tt>)
+with the following text:
+
+<pre>    echo %time%
+    7za a -tzip mobyDickOutputFileName.zip mobydick.txt
+    echo %time%
+</pre>
+<p>This creates a file in .zip format (the same used natively by Windows fo=
+r compression). To test unzipping time, use the following:
+
+</p><pre>    echo %time%
+    7za e mobyDickOutputFileName.zip=20
+    echo %time%
+</pre>
+</li></ul>
+
+<p>If you're interested in testing against other compression formats, then =
+see <a href=3D"http://www.dotnetperls.com/7-zip-examples">this page</a>.
+
+
+
+
+
+
+<!-- <p> <b>Reference solutions.</b> &nbsp; For reference, we provide our e=
+xecutable code=20
+on Windows, Solaris, and OS X. Due to a bug in the Windows XP command promp=
+t (that returns=20
+EOF upon reading in ASCII 26 =3D Ctrl-z), we were unable to create a Window=
+s reference=20
+solution in C for the move-to-front heuristics. If anyone figures out how t=
+o fix it,=20
+please let us know.
+
+
+<p> <b>Compression script.</b> &nbsp; OS X and Linux users may wish to use =
+the scripts=20
+<tt>compressit.csh</tt> to automate the process of determining the compress=
+ed file sizes.=20
+The following command tests your implementation against cat, Huffman encodi=
+ng alone, gzip,=20
+and bzip2. <blockquote> <pre> % ./compressit.csh cat ./HUFE ./burrows ./gzi=
+p226 ./bzip226=20
+</pre> </blockquote> Note that <tt>burrows</tt> is a script that combines t=
+he three phases=20
+of the Burrow Wheeler data compression algorithm. The scripts <tt>gzip226</=
+tt> and=20
+<tt>bzip226</tt> run the standard Unix gzip and bzip programs and are only =
+included for=20
+reference.
+
+<p> <b>Timing script.</b> &nbsp; The <tt>timeit.csh</tt> script measures ex=
+ecution times=20
+of the compression programs. <blockquote> <pre> % ./timeit.csh cat ./HUFE .=
+/MTFE ./BWTE=20
+./burrows ./gzip226 ./bzip226 </pre> </blockquote> The scripts HUFE, MTFE, =
+and BWTE each=20
+take a command line argument and call the corresponding Java program. Be ca=
+reful when=20
+using <tt>/usr/bin/time</tt> with pipes - it only measures the running time=
+ of the first=20
+command. Gluing the commands together in the script <tt>burrows</tt> enable=
+s you to=20
+account for the total execution time. --> </p><p>
+
+<table border=3D"0" cellpadding=3D"2" cellspacing=3D"0" width=3D"100%"> <tb=
+ody><tr align=3D"left"> <td bgcolor=3D"000000"> <font size=3D"+0" face=3D"h=
+elvetica" color=3D"ffffff"> <center>Possible=20
+Progress Steps</center> </font></td></tr></tbody></table> </p><p>
+
+These are purely suggestions for how you might make progress.  You do not h=
+ave to follow=20
+these steps.
+
+</p><ul> <li> Download the directory <a href=3D"http://coursera.cs.princeto=
+n.edu/algs4/testing/burrows">=20
+<tt>burrows</tt></a> to your system. It contains some sample input files an=
+d reference=20
+solutions.
+For convenience, <a href=3D"http://coursera.cs.princeton.edu/algs4/testing/=
+burrows-testing.zip">burrows-testing.zip</a>
+contains all of these files bundled together.
+
+
+<p></p></li><li> Implement the <tt>CircularSuffixArray</tt>. Be sure not to=
+ create copies of the String when you sort the suffixes. That would take qu=
+adratic space.
+Instead for each suffix, you only need to keep an index that indicates whic=
+h character is the beginning of the suffix.
+This way you can build the <em>N</em> suffixes in linear time and space.
+Then sort this array of indices. It's just like sorting an array of referen=
+ces.
+
+<p></p></li><li> Implement the Burrows-Wheeler transform, using the <tt>Cir=
+cularSuffixArray</tt> class.
+
+<p></p></li><li> The Burrows-Wheeler decoding is the trickiest part, but it=
+ is very little code=20
+once you understand how it works. (Not including declarations and input, ou=
+r solution is
+about 10 lines of code.) You may find the key-indexed counting algorithm fr=
+om the string=20
+sorting lecture to be useful.
+
+<p></p></li><li> Implement the move-to-front encoding and decoding algorith=
+ms. Not including=20
+comments and declarations, our solutions are about 10 lines of code each. I=
+f yours is=20
+significantly longer, try to simplify it.
+
+</li></ul>
+
+
+
+
+=20
+
+</body></html>
+------=_NextPart_000_6299_2662214D.E8734C18--
